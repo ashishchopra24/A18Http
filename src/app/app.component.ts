@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Data} from './data.model';
 
@@ -51,7 +51,11 @@ export class AppComponent implements OnInit{
   private fetchPosts() {
     this.http
       .get(
-        'https://postdata-65d56.firebaseio.com/posts.json'
+        'https://postdata-65d56.firebaseio.com/posts.json',
+        {
+          headers: new HttpHeaders({'custom-header': 'hello'}),
+          params: new HttpParams().set('print', 'pretty')
+        }
       )
       .pipe(
         map(responseData => {
