@@ -34,6 +34,14 @@
     </div>
   </div>
   <hr />
+  <p *ngIf="submitted && !error" class="alert-info" style="text-align:center;">Data submitted to server</p>
+  <div class="alert alert-danger" *ngIf="error">
+    <h1>An Error Occurred!</h1>
+    <p>{{ error }}</p>
+    <button class="btn btn-danger" (click)="handleError()">OK</button>
+  </div>
+
+  <hr />
   <div class="row">
     <div class="col-xs-12 col-md-6 col-md-offset-3">
       <button class="btn btn-primary" (click)="onFetchPosts()">

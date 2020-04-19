@@ -10,6 +10,8 @@ import {Data} from './data.model';
 })
 export class AppComponent implements OnInit{
   loadedPosts: Data[] = [];
+  submitted = false;
+  error = null;
 
   constructor(private http: HttpClient) {}
 
@@ -25,14 +27,21 @@ export class AppComponent implements OnInit{
       )
       .subscribe(responseData => {
         console.log(responseData);
+        this.submitted = true;
+      },  error => {
+        this.error = error.message;
+        console.log(error);
       });
+
   }
 
   onFetchPosts() {
     // Send Http request
+    this.submitted = false;
     this.fetchPosts();
   }
   onClearPosts() {
+    this.submitted = false;
     this.http.delete('https://postdata-65d56.firebaseio.com/posts.json').subscribe(() => {
       this.loadedPosts = [];
     });
@@ -58,9 +67,13 @@ export class AppComponent implements OnInit{
       .subscribe(posts => {
         console.log(posts);
         this.loadedPosts = posts;
-      });
+      }
+      );
 
   }
 
 
+  handleError() {
+    this.error = null;
+  }
 }
